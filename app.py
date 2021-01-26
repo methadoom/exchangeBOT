@@ -28,7 +28,7 @@ def values(message: telebot.types.Message):
 
 
 @bot.message_handler(content_types=['text',])
-def convert(message: telebot.types.Message):
+def get_change(message: telebot.types.Message):
     try:
         values = message.text.split(' ')
 
@@ -36,13 +36,13 @@ def convert(message: telebot.types.Message):
             raise ExchangeException('Слишком нмого параметров')
 
         quote, base, amount = values
-        total_base = ExchangeB.exchange(quote, base, amount)
+        total_base = ExchangeB.get_change(quote, base, amount)
     except ExchangeException as e:
         bot.reply_to(message, f'Ошибка пользователя\n{e}')
     except Exception as e:
         bot.reply_to(message, f'Не удалось обработать команду\n{e}')
     else:
-        text = f'Цена {amount} {quote} в {base} - {total_base}'
+        text = f'Переводим {base} в {quote}\n{amount} у.е. = {total_base}'
         bot.send_message(message.chat.id, text)
 
 bot.polling()
