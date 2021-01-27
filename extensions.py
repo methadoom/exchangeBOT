@@ -27,6 +27,6 @@ class ExchangeB:
             raise ExchangeException(f'Не удалось обрабоать количество {amount}')
 
         r = requests.get(f'https://api.exchangeratesapi.io/latest?base={quote_ticker}&symbols={base_ticker}')
-        total_base = json.loads(r.content)[keys[base]]*amount
+        total_base = json.loads(r.content)["rates"][keys[base]]*amount
 
         return total_base

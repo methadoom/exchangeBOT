@@ -1,6 +1,8 @@
+
 import telebot
 from config import keys, TOKEN
 from extensions import ExchangeException, ExchangeB
+
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -13,8 +15,8 @@ def start(message: telebot.types.Message):
 
 @bot.message_handler(commands=['help'])
 def help(message: telebot.types.Message):
-    text = 'Чтобы начать работу, введите команду боту в следующем формате: \n<имя валюты> \
-<в какую валюту перевести> \
+    text = 'Чтобы начать работу, введите команду боту в следующем формате: \n<в какую валюту перевести> \
+<что переводим> \
 <количество валюты>\nУвидеть список всез доступных валют: /values'
     bot.reply_to(message, text)
 
@@ -33,7 +35,7 @@ def get_change(message: telebot.types.Message):
         values = message.text.split(' ')
 
         if len(values) !=3:
-            raise ExchangeException('Слишком нмого параметров')
+            raise ExchangeException('Введите команду или 3 параметра')
 
         quote, base, amount = values
         total_base = ExchangeB.get_change(quote, base, amount)
